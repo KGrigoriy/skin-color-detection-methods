@@ -1,7 +1,7 @@
 #pragma once
 
 
-class MethodYIQ {
+class YIQ {
 private:
 	int R;
 	int G;
@@ -12,8 +12,9 @@ private:
 	double Q();
 
 public:
-	MethodYIQ(int red, int grean, int blue);
-	~MethodYIQ();
+	YIQ(int red, int grean, int blue);
+	~YIQ();
+
 	void setRed(int red);
 	void setGrean(int grean);
 	void setBlue(int blue);
@@ -21,5 +22,4 @@ public:
 	double getY();
 	double getI();
 	double getQ();
-
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-class MethodLogOpponent {
+class LogOpponent {
 
 private:
 	int R;
@@ -16,14 +16,13 @@ private:
 //	void calculateS();
 
 public:
-	MethodLogOpponent(int red, int grean, int blue);
-	~MethodLogOpponent();
+	LogOpponent(int red, int grean, int blue);
+	~LogOpponent()
+		;
 	void setRed(int red);
 	void setGrean(int grean);
 	void setBlue(int blue);
 
 	double getH();
 	//int getS();
-
-
 };

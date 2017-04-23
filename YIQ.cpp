@@ -1,47 +1,47 @@
 #include "stdafx.h"
-#include "MethodYIQ.h"
+#include "YIQ.h"
 
 
 
-MethodYIQ::MethodYIQ(int red, int grean, int blue)
+YIQ::YIQ(int red, int grean, int blue)
 {
 	R = red;
 	G = grean;
 	B = blue;
 }
 
-MethodYIQ::~MethodYIQ()
+YIQ::~YIQ()
 {
 }
 
 
-void MethodYIQ::setRed(int red)
+void YIQ::setRed(int red)
 {
 	R = red;
 }
 
-void MethodYIQ::setGrean(int grean)
+void YIQ::setGrean(int grean)
 {
 	G = grean;
 }
 
-void MethodYIQ::setBlue(int blue)
+void YIQ::setBlue(int blue)
 {
 	B = blue;
 }
 
 
-double MethodYIQ::Y()
+double YIQ::Y()
 {
 	return 0.299 * R + 0.587 * G + 0.114 * B;
 }
 
-double MethodYIQ::I()
+double YIQ::I()
 {
 	return 0.596 * R - 0.274 * G - 0.322 * B;
 }
 
-double MethodYIQ::Q()
+double YIQ::Q()
 {
 	return 0.211 * R - 0.522 * G + 0.311 * B;
 }
@@ -50,17 +50,17 @@ double MethodYIQ::Q()
 
 
 
-double MethodYIQ::getY()
+double YIQ::getY()
 {
 	return Y();
 }
 
-double MethodYIQ::getI()
+double YIQ::getI()
 {
 	return I();
 }
 
-double MethodYIQ::getQ()
+double YIQ::getQ()
 {
 	return Q();
 }

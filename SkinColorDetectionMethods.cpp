@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Pixel.h"
-#include "MethodLogOpponent.h"
-#include "MethodYIQ.h"
+#include "LogOpponent.h"
+#include "YIQ.h"
+#include "TSL.h"
+#include "HSV.h"
 #include <math.h>
 
 #include <iostream>
@@ -25,17 +27,27 @@ R > B
 int main(int argc, char **argv)
 {
 	Pixel pixel;
-	MethodLogOpponent logOpponent(0, 0, 0);
-	MethodYIQ YIQ(0, 0, 0);
+	LogOpponent logOpponent(0, 0, 0);
+	YIQ yiq(0, 0, 0);
+	HSV hsv(0, 0, 0);
+	TSL tsl(0, 0, 0);
 
-	int step = 5;
+	int step = 10;
 	int count = 0;
 	int countTrue = 0;
 	int arrayElements = ceil(16777216 / (step*step*step));
 
 
-	double* arrayH = new double[arrayElements];
-	double* arrayI = new double[arrayElements];
+	double* logOpponentArrayH = new double[arrayElements];
+
+	double* yiqArrayI = new double[arrayElements];
+
+	double* hsvArrayH = new double[arrayElements];
+	double* hsvArrayS = new double[arrayElements];
+	double* hsvArrayV = new double[arrayElements];
+
+	double* tslArrayT = new double[arrayElements];
+	double* tslArrayS = new double[arrayElements];
 
 	for (; !pixel.getAllColorFlag(); pixel.allColor(step), count++) {
 		if ((pixel.getRed() > 90 && pixel.getGrean() > 40 && pixel.getBlue() > 20 && pixel.getRed() - pixel.getGrean() > 15 && pixel.getRed() > pixel.getBlue())) {
@@ -43,55 +55,143 @@ int main(int argc, char **argv)
 			logOpponent.setRed(pixel.getRed());
 			logOpponent.setGrean(pixel.getGrean());
 			logOpponent.setBlue(pixel.getBlue());
+			logOpponentArrayH[countTrue] = logOpponent.getH();
 
-			arrayH[countTrue] = logOpponent.getH();
+			yiq.setRed(pixel.getRed());
+			yiq.setGrean(pixel.getGrean());
+			yiq.setBlue(pixel.getBlue());
+			yiqArrayI[countTrue] = yiq.getI();
 
-			YIQ.setRed(pixel.getRed());
-			YIQ.setGrean(pixel.getGrean());
-			YIQ.setBlue(pixel.getBlue());
+			hsv.setRed(pixel.getRed());
+			hsv.setGrean(pixel.getGrean());
+			hsv.setBlue(pixel.getBlue());
+			hsvArrayH[countTrue] = hsv.getH();
+			hsvArrayS[countTrue] = hsv.getS();
+			hsvArrayV[countTrue] = hsv.getV();
 
-			arrayI[countTrue] = YIQ.getI();
+			tsl.setRed(pixel.getRed());
+			tsl.setGrean(pixel.getGrean());
+			tsl.setBlue(pixel.getBlue());
+			tslArrayT[countTrue] = tsl.getT();
+			tslArrayS[countTrue] = tsl.getS();
+
 
 			countTrue++;
 		}
-		//double pers = (100 / ((arrayElements/4)/ (countElements+1))*count);
+
 		cout << "all: " << count << "   true: " << countTrue << " " << pixel.getRed() << " " << pixel.getGrean() << " " << pixel.getBlue() << endl;
 	}
 
 
-	int maxH = arrayH[0];
-	int minH = arrayH[0];
+	double logOpponentMinH = logOpponentArrayH[0];
+	double logOpponenthsvMaxH = logOpponentArrayH[0];
 
-	int maxI = arrayI[0];
-	int minI = arrayI[0];
+	double yiqMinI = yiqArrayI[0];
+	double yiqMaxI = yiqArrayI[0];
+
+	double hsvMinH = hsvArrayH[0];
+	double hsvMaxH = hsvArrayH[0];
+	double hsvMinS = hsvArrayS[0];
+	double hsvMaxS = hsvArrayS[0];
+	double hsvMinV = hsvArrayV[0];
+	double hsvMaxV = hsvArrayV[0];
+
+	double tslMinT = tslArrayT[0];
+	double tslMaxT = tslArrayT[0];
+	double tslMinS = tslArrayS[0];
+	double tslMaxS = tslArrayS[0];
+
 
 	for (int i = 0; i<countTrue; i++)
 	{
-		if (minH > arrayH[i])
+		if (logOpponentMinH > logOpponentArrayH[i])
 		{
-			minH = arrayH[i];
+			logOpponentMinH = logOpponentArrayH[i];
 		}
-		else if (maxH < arrayH[i])
+		else if (logOpponenthsvMaxH < logOpponentArrayH[i])
 		{
-			maxH = arrayH[i];
+			logOpponenthsvMaxH = logOpponentArrayH[i];
 		}
 
-		if (minI > arrayI[i])
+
+		if (yiqMinI > yiqArrayI[i])
 		{
-			minI = arrayI[i];
+			yiqMinI = yiqArrayI[i];
 		}
-		else if (maxI < arrayI[i])
+		else if (yiqMaxI < yiqArrayI[i])
 		{
-			maxI = arrayI[i];
+			yiqMaxI = yiqArrayI[i];
+		}
+
+
+		if (hsvMinH > hsvArrayH[i])
+		{
+			hsvMinH = hsvArrayH[i];
+		}
+		else if (hsvMaxH < hsvArrayH[i])
+		{
+			hsvMaxH = hsvArrayH[i];
+		}
+
+		if (hsvMinS > hsvArrayS[i])
+		{
+			hsvMinS = hsvArrayS[i];
+		}
+		else if (hsvMaxS < hsvArrayS[i])
+		{
+			hsvMaxS = hsvArrayS[i];
+		}
+
+		if (hsvMinV > hsvArrayV[i])
+		{
+			hsvMinV = hsvArrayV[i];
+		}
+		else if (hsvMaxV < hsvArrayV[i])
+		{
+			hsvMaxV = hsvArrayV[i];
+		}
+
+
+		if (tslMinT > tslArrayT[i])
+		{
+			tslMinT = tslArrayT[i];
+		}
+		else if (tslMaxT < tslArrayT[i])
+		{
+			tslMaxT = tslArrayT[i];
+		}
+
+		if (tslMinS > tslArrayS[i])
+		{
+			tslMinS = tslArrayS[i];
+		}
+		else if (tslMaxS < tslArrayS[i])
+		{
+			tslMaxS = tslArrayS[i];
 		}
 	}
 
-	cout << "Maximum hue number is: " << maxH << endl;
-	cout << "Minimum hue number is: " << minH << endl;
+	cout << "===========LOG OPPONENT===========" << endl;
+	cout << "logOpponentMinH is: " << logOpponentMinH << endl;
+	cout << "logOpponenthsvMaxH is: " << logOpponenthsvMaxH << endl;
 
-	cout << "Maximum I number is: " << maxI << endl;
-	cout << "Minimum I number is: " << minI << endl;
+	cout << "===========YIQ===========" << endl;
+	cout << "yiqMinI is: " << yiqMinI << endl;
+	cout << "yiqMaxI is: " << yiqMaxI << endl;
 
+	cout << "===========HSV===========" << endl;
+	cout << "hsvMinH is: " << hsvMinH << endl;
+	cout << "hsvMaxH is: " << hsvMaxH << endl;
+	cout << "hsvMinS is: " << hsvMinS << endl;
+	cout << "hsvMaxS is: " << hsvMaxS << endl;
+	cout << "hsvMinV is: " << hsvMinV << endl;
+	cout << "hsvMaxV is: " << hsvMaxV << endl;
+
+	cout << "===========TSL===========" << endl;
+	cout << "tslMinT is: " << tslMinT << endl;
+	cout << "tslMaxT is: " << tslMaxT << endl;
+	cout << "tslMinS is: " << tslMinS << endl;
+	cout << "tslMaxS is: " << tslMaxS << endl;
 
 	system("pause");
 	return 0;
