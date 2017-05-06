@@ -30,6 +30,21 @@
 		return B;
 	}
 
+	void Pixel::setRed(int r)
+	{
+		R = r;
+	}
+
+	void Pixel::setGrean(int g)
+	{
+		G = g;
+	}
+
+	void Pixel::setBlue(int b)
+	{
+		B = b;
+	}
+
 	void Pixel::nextRed(int step)
 	{
 		R = R + step;
