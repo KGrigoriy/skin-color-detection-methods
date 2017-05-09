@@ -9,7 +9,7 @@ private:
 	double H();
 	double S();
 	double V();
-	double min(int v1, int v2, int v3);
+	double minOfThree(int v1, int v2, int v3);
 
 public:
 	HSV(int red, int grean, int blue);

@@ -36,9 +36,11 @@ int main(int argc, char **argv)
 	int src;
 	scanf_s("%d", &src);
 
+	printf("Enter a factor (0.0-1.0): ");
+	double factor;
+	scanf_s("%lf", &factor);
 
-	Borders borders(src);
-
+	Borders borders(src, factor);
 
 	system("pause");
 	return 0;
